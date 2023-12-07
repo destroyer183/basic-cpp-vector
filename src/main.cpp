@@ -84,7 +84,7 @@ public:
 
         // add every element from old array to new array, but skip last element
         for (size_t i = 0; i < size-2; ++i) {
-            newArray[i] = array[i]
+            newArray[i] = array[i];
         }
 
         // delete the old array
@@ -94,6 +94,37 @@ public:
         array = newArray;
         --size;
 
+    }
+
+    // function to pop element by index and return popped element
+    T pop(int index=-10) {
+
+        if (index == -10) index = size-1;
+
+        // create a new array to store old array without element at index
+        T* newArray = new T[capacity];
+
+        // add every element before index from old array to new array
+        for (int i = 0; i < index; ++i) {
+            newArray[i] = array[i];
+        }
+
+        // add every element after index from old array to new array
+        for (size_t i = index; i < size-1; ++i) {
+            newArray[i] = array[i + 1];
+        }
+
+        T item = array[index];
+
+        // delete the old array
+        delete[] array;
+
+        // point to the new array
+        array = newArray;
+        --size;
+
+        // return popped item
+        return item;
     }
 
 
@@ -132,11 +163,42 @@ public:
 
     }
 
+    // function to return index of string if string is in array
+    int find(std::string value) {
 
-    // get size of vector
-    // just use .size, there is already a size attribute
+        // loop through every index of the array
+
+        for (size_t i = 0; i < size; ++i) {
+            if (array[i] == value) return i;
+        }
+
+        return -1;
+
+
+    }
+
+    // function to return index of last occurence of string if string is in array
+    int rfind(std::string value) {
+
+        // loop through every index of the array backwards
+        for (size_t i = size; i > 0; --i) {
+            if (array[i] == value) return i;
+        }
+    
+    return -1;
+
+    }
+
+
 
 };
+
+
+
+
+
+
+
 
 int main() {
     // Create a vector of integers
@@ -171,6 +233,62 @@ int main() {
         std::cout << "Element at index " << i << ": " << intVector[i] << std::endl;
     }
     std::cout << std::endl;
+
+    std::cout << "pop index 3: " << intVector.pop(3) << std::endl;
+
+    // Access and print elements
+    for (size_t i = 0; i < intVector.getSize(); ++i) {
+        std::cout << "Element at index " << i << ": " << intVector[i] << std::endl;
+    }
+
+    std::cout << std::endl;
+
+    std::cout << "pop last item: " << intVector.pop() << std::endl;
+
+    // Access and print elements
+    for (size_t i = 0; i < intVector.getSize(); ++i) {
+        std::cout << "Element at index " << i << ": " << intVector[i] << std::endl;
+    }
+
+    std::cout << std::endl;
+
+    std::cout << "pop first item: " << intVector.pop(0) << std::endl;
+
+    // Access and print elements
+    for (size_t i = 0; i < intVector.getSize(); ++i) {
+        std::cout << "Element at index " << i << ": " << intVector[i] << std::endl;
+    }
+
+    std::cout << std::endl;
+
+    vector<std::string> stringVector;
+
+    std::string characters = "characters";
+
+    for (char i : characters) {
+        stringVector.push_back(std::string(1, i));
+    }
+
+    // Access and print elements
+    for (size_t i = 0; i < stringVector.getSize(); ++i) {
+        std::cout << "Element at index " << i << ": " << stringVector[i] << std::endl;
+    }
+
+    std::cout << std::endl;
+
+    std::string character = "r";
+
+    int index = characters.find(character);
+
+    if (index == -1) std::cout << "could not find character";
+    else std::cout << "the character \'" << character << "\' is at index " << index << std::endl;
+
+    std::cout << std::endl;
+
+    index = characters.rfind(character);
+
+    if (index == -1) std::cout << "could not find character";
+    else std::cout << "the last occurence of the character \'" << character << "\' is at index " << index << std::endl;
 
 
 
